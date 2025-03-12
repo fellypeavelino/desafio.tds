@@ -52,7 +52,7 @@ public class JwtUtil extends OncePerRequestFilter {
         String token = authHeader.substring(7);
         try {
             String sub = decodeToken(authHeader);
-            if(sub.equals("prodesp")){
+            if(sub.equals("tds")){
                 UserDetails userDetails = new User(sub, "", Collections.emptyList());
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
