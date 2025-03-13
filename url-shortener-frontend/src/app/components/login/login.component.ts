@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem("usuarioLoguin", JSON.stringify(data));
       localStorage.setItem("token", token);
       vm.guardService.login();
-      //vm.router.navigate([`processos`]);
+      vm.router.navigate([`usuarios`]);
     });
   }
 
