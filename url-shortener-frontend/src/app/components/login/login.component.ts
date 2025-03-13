@@ -37,8 +37,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      loguin: ['', Validators.required],
-      senha: ['', Validators.required]
+      loguin: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+      senha: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
@@ -46,7 +46,8 @@ export class LoginComponent implements OnInit {
     const vm = this;
     const loginForm = this.loginForm.value;
     this.usuarioService.loguinAsync(loginForm).then(async(data) => {
-      if (!data.id) {
+      const {usuarioDto} = data;
+      if (!usuarioDto.id) {
         alert("usuario ou senha não existem");
         vm.guardService.logout();
         localStorage.removeItem("logado");
@@ -54,12 +55,12 @@ export class LoginComponent implements OnInit {
         return;
       }
       localStorage.setItem("logado", "true");
-      this.usuarioService.usuarioLoguin = data;
+      this.usuarioService.usuarioLoguin = usuarioDto;
       const token = data.sub;
       localStorage.setItem("usuarioLoguin", JSON.stringify(data));
       localStorage.setItem("token", token);
       vm.guardService.login();
-      vm.router.navigate([`processos`]);
+      //vm.router.navigate([`processos`]);
     });
   }
 
