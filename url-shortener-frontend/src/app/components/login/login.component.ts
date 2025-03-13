@@ -2,7 +2,6 @@ import { Component, ChangeDetectionStrategy, OnInit, Input } from '@angular/core
 
 import { Router } from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
-//import { GuardService } from '../../servicies/guard.service';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 
@@ -13,13 +12,17 @@ import {MatCardModule} from '@angular/material/card';
 import {FormBuilder,FormGroup,Validators,ReactiveFormsModule} from "@angular/forms";
 import { UsuarioService } from '../../services/usuario.service';
 import { GuardService } from '../../guard.service';
-//import { LoginService } from '../../servicies/login.service';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [
+    MatIconModule, MatDividerModule, MatFormFieldModule, 
+    MatInputModule, MatButtonModule,
+    MatSelectModule, MatCardModule, ReactiveFormsModule
+  ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
@@ -45,7 +48,7 @@ export class LoginComponent implements OnInit {
     this.usuarioService.loguinAsync(loginForm).then(async(data) => {
       if (!data.id) {
         alert("usuario ou senha não existem");
-        //vm.guardService.logout();
+        vm.guardService.logout();
         localStorage.removeItem("logado");
         localStorage.removeItem("usuarioLoguin");
         return;
@@ -55,13 +58,13 @@ export class LoginComponent implements OnInit {
       const token = data.sub;
       localStorage.setItem("usuarioLoguin", JSON.stringify(data));
       localStorage.setItem("token", token);
-      //vm.guardService.login();
+      vm.guardService.login();
       vm.router.navigate([`processos`]);
     });
   }
 
   logout(){
-    //this.guardService.logout();
+    this.guardService.logout();
     localStorage.removeItem("logado");
     localStorage.removeItem("usuarioLoguin");
     this.router.navigate([`loguin`]);
