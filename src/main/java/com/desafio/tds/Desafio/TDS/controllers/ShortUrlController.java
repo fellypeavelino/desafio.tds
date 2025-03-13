@@ -4,7 +4,9 @@
  */
 package com.desafio.tds.Desafio.TDS.controllers;
 
+import com.desafio.tds.Desafio.TDS.dtos.RequestPageDTO;
 import com.desafio.tds.Desafio.TDS.dtos.ShortUrlDTO;
+import com.desafio.tds.Desafio.TDS.dtos.ShortUrlPaginadoDTO;
 import com.desafio.tds.Desafio.TDS.services.ShortUrlService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -50,4 +52,10 @@ public class ShortUrlController {
         return ResponseEntity.ok(service.getStats(shortCode));
     }
     
+    @PostMapping("/paginacao/{usuario_id}")
+    public ShortUrlPaginadoDTO getShortUrlPaginadosEOrdenadosPorQuery(
+        @Valid @RequestBody RequestPageDTO dto, @PathVariable Long usuario_id
+    ) {
+        return service.getShortUrlPaginadosEOrdenadosPorQuery(dto, usuario_id);
+    }
 }
